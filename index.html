@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Troubleshooting Tool</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+p {
+  text-align: center;
+  opacity: 0.8;
+}
+
+.card {
+  background: #2f2f4a;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+.result {
+  margin-top: 20px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  background: #1c1c2b;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  opacity: 0.6;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🛠 IT Troubleshooting Tool</h1>
+  <p>Select an issue and get instant solutions</p>
+
+  <div class="card">
+    <select id="issue">
+      <option value="slow">🐢 Slow PC</option>
+      <option value="internet">🌐 No Internet</option>
+      <option value="printer">🖨 Printer Not Working</option>
+      <option value="vpn">🔐 VPN Not Connecting</option>
+      <option value="outlook">📧 Outlook Not Working</option>
+      <option value="wifi">📡 WiFi Disconnecting</option>
+      <option value="blue">💻 Blue Screen</option>
+      <option value="login">🔑 Cannot Login</option>
+      <option value="usb">🔌 USB Not Recognized</option>
+      <option value="audio">🔊 No Sound</option>
+    </select>
+
+    <button onclick="generate()">Generate Solution</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <div class="footer">
+    Built by viktorhristev.com 🚀
+  </div>
+</div>
+
+<script>
+function generate() {
+  const issue = document.getElementById("issue").value;
+  let result = "";
+
+  if (issue === "slow") {
+    result = `✔ Check CPU usage (Task Manager)
+✔ Check RAM usage
+✔ Disable startup programs
+✔ Scan for malware
+✔ Clean temporary files
+✔ Check disk usage (SSD/HDD)
+✔ Restart the computer`;
+  }
+
+  if (issue === "internet") {
+    result = `✔ Check cable connection
+✔ Restart router
+✔ Run network troubleshooter
+✔ Flush DNS (ipconfig /flushdns)
+✔ Check IP configuration
+✔ Try another device
+✔ Contact ISP`;
+  }
+
+  if (issue === "printer") {
+    result = `✔ Ensure printer is powered ON
+✔ Check USB / network connection
+✔ Restart Print Spooler service
+✔ Set as default printer
+✔ Reinstall printer drivers
+✔ Check for paper/jam issues`;
+  }
+
+  if (issue === "vpn") {
+    result = `✔ Check internet connection
+✔ Verify credentials
+✔ Restart VPN client
+✔ Change VPN server
+✔ Check firewall settings
+✔ Reinstall VPN software`;
+  }
+
+  if (issue === "outlook") {
+    result = `✔ Restart Outlook
+✔ Check internet connection
+✔ Repair Outlook profile
+✔ Disable add-ins
+✔ Re-enter email credentials
+✔ Check mail server status`;
+  }
+
+  if (issue === "wifi") {
+    result = `✔ Restart router
+✔ Forget and reconnect network
+✔ Update WiFi drivers
+✔ Move closer to router
+✔ Check interference
+✔ Reset network settings`;
+  }
+
+  if (issue === "blue") {
+    result = `✔ Note error code
+✔ Restart system
+✔ Update drivers
+✔ Run Windows Update
+✔ Check RAM (Windows Memory Diagnostic)
+✔ Scan for malware
+✔ Check hardware issues`;
+  }
+
+  if (issue === "login") {
+    result = `✔ Check username/password
+✔ Ensure Caps Lock is off
+✔ Try password reset
+✔ Check domain connection
+✔ Restart computer
+✔ Contact administrator`;
+  }
+
+  if (issue === "usb") {
+    result = `✔ Try different USB port
+✔ Restart computer
+✔ Update USB drivers
+✔ Check Device Manager
+✔ Test with another device
+✔ Enable USB in BIOS`;
+  }
+
+  if (issue === "audio") {
+    result = `✔ Check volume levels
+✔ Check output device
+✔ Restart audio services
+✔ Update audio drivers
+✔ Test with headphones
+✔ Check system sound settings`;
+  }
+
+  document.getElementById("result").innerText = result;
+}
+</script>
+
+</body>
+</html>
