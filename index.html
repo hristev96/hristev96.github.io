@@ -3,229 +3,205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FixDesk - IT Troubleshooting</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<title>IT Troubleshooting Tool</title>
 <style>
 body {
-  font-family: 'Inter', sans-serif;
-  background: #0f172a;
-  color: #e2e8f0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+  color: white;
   margin: 0;
+  padding: 0;
 }
 
 .container {
-  max-width: 1000px;
-  margin: 60px auto;
+  max-width: 900px;
+  margin: 50px auto;
   padding: 20px;
 }
 
 h1 {
-  font-size: 42px;
   text-align: center;
+  margin-bottom: 10px;
 }
 
-.subtitle {
+p {
   text-align: center;
-  color: #94a3b8;
-  margin-bottom: 40px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+  opacity: 0.8;
 }
 
 .card {
-  background: #1e293b;
+  background: #2f2f4a;
   padding: 20px;
-  border-radius: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  border: 1px solid transparent;
+  border-radius: 12px;
+  margin-top: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  border: 1px solid #38bdf8;
-}
-
-.card.active {
-  border: 1px solid #22c55e;
-}
-
-.result {
-  margin-top: 30px;
-  background: #020617;
-  padding: 20px;
-  border-radius: 16px;
-  line-height: 1.7;
-}
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
 }
 
 button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.generate {
-  background: #22c55e;
+  background: #4CAF50;
   color: white;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.copy {
-  background: #38bdf8;
-  color: black;
+button:hover {
+  background: #45a049;
+}
+
+.result {
+  margin-top: 20px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  background: #1c1c2b;
+  padding: 15px;
+  border-radius: 10px;
 }
 
 .footer {
   text-align: center;
-  margin-top: 40px;
-  color: #64748b;
+  margin-top: 30px;
+  opacity: 0.6;
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>⚡ FixDesk</h1>
-  <div class="subtitle">Instant IT troubleshooting for real-world problems</div>
+  <h1>🛠 IT Troubleshooting Tool</h1>
+  <p>Select an issue and get instant solutions</p>
 
-  <div class="grid" id="grid"></div>
+  <div class="card">
+    <select id="issue">
+      <option value="slow">🐢 Slow PC</option>
+      <option value="internet">🌐 No Internet</option>
+      <option value="printer">🖨 Printer Not Working</option>
+      <option value="vpn">🔐 VPN Not Connecting</option>
+      <option value="outlook">📧 Outlook Not Working</option>
+      <option value="wifi">📡 WiFi Disconnecting</option>
+      <option value="blue">💻 Blue Screen</option>
+      <option value="login">🔑 Cannot Login</option>
+      <option value="usb">🔌 USB Not Recognized</option>
+      <option value="audio">🔊 No Sound</option>
+    </select>
 
-  <div class="result" id="result">Select a problem to generate solution...</div>
+    <button onclick="generate()">Generate Solution</button>
 
-  <div class="buttons">
-    <button class="generate" onclick="generate()">Generate Solution</button>
-    <button class="copy" onclick="copyText()">Copy for Ticket</button>
+    <div id="result" class="result"></div>
   </div>
 
-  <div class="footer">Built by viktorhristev.com 🚀</div>
+  <div class="footer">
+    Built by viktorhristev.com 🚀
+  </div>
 </div>
 
 <script>
-const problems = {
-  "🐢 Slow PC": [
-    "Check CPU usage (Task Manager)",
-    "Check RAM usage",
-    "Disable startup apps",
-    "Scan for malware",
-    "Clean temp files",
-    "Restart PC"
-  ],
-  "🌐 No Internet": [
-    "Check cable connection",
-    "Restart router",
-    "Flush DNS",
-    "Check IP config",
-    "Test another device"
-  ],
-  "🖨 Printer Issues": [
-    "Check power",
-    "Check connection",
-    "Restart spooler",
-    "Reinstall drivers",
-    "Check paper"
-  ],
-  "🔐 VPN Not Working": [
-    "Check internet",
-    "Verify credentials",
-    "Restart VPN client",
-    "Change server",
-    "Check firewall"
-  ],
-  "📧 Outlook Issues": [
-    "Restart Outlook",
-    "Disable add-ins",
-    "Repair profile",
-    "Check server",
-    "Re-login"
-  ],
-  "📡 WiFi Drops": [
-    "Restart router",
-    "Reconnect network",
-    "Update drivers",
-    "Move closer",
-    "Check interference"
-  ],
-  "💻 Blue Screen": [
-    "Note error code",
-    "Update drivers",
-    "Run Windows Update",
-    "Check RAM",
-    "Scan malware"
-  ],
-  "🔑 Login Issues": [
-    "Check credentials",
-    "Reset password",
-    "Check Caps Lock",
-    "Restart device",
-    "Contact admin"
-  ],
-  "🔌 USB Not Working": [
-    "Try another port",
-    "Restart PC",
-    "Update drivers",
-    "Check device manager",
-    "Test device"
-  ],
-  "🔊 No Sound": [
-    "Check volume",
-    "Check output device",
-    "Restart audio service",
-    "Update drivers",
-    "Test headphones"
-  ]
-};
-
-let selected = null;
-
-const grid = document.getElementById("grid");
-
-Object.keys(problems).forEach(name => {
-  const div = document.createElement("div");
-  div.className = "card";
-  div.innerText = name;
-
-  div.onclick = () => {
-    document.querySelectorAll(".card").forEach(c => c.classList.remove("active"));
-    div.classList.add("active");
-    selected = name;
-  };
-
-  grid.appendChild(div);
-});
-
 function generate() {
-  if (!selected) return;
+  const issue = document.getElementById("issue").value;
+  let result = "";
 
-  const steps = problems[selected];
-  let text = "Hello,\n\nPlease follow the steps below:\n\n";
+  if (issue === "slow") {
+    result = `✔ Check CPU usage (Task Manager)
+✔ Check RAM usage
+✔ Disable startup programs
+✔ Scan for malware
+✔ Clean temporary files
+✔ Check disk usage (SSD/HDD)
+✔ Restart the computer`;
+  }
 
-  steps.forEach(s => {
-    text += "✔ " + s + "\n";
-  });
+  if (issue === "internet") {
+    result = `✔ Check cable connection
+✔ Restart router
+✔ Run network troubleshooter
+✔ Flush DNS (ipconfig /flushdns)
+✔ Check IP configuration
+✔ Try another device
+✔ Contact ISP`;
+  }
 
-  text += "\nIf the issue persists, please contact IT support.\n\nBest regards,";
+  if (issue === "printer") {
+    result = `✔ Ensure printer is powered ON
+✔ Check USB / network connection
+✔ Restart Print Spooler service
+✔ Set as default printer
+✔ Reinstall printer drivers
+✔ Check for paper/jam issues`;
+  }
 
-  document.getElementById("result").innerText = text;
-}
+  if (issue === "vpn") {
+    result = `✔ Check internet connection
+✔ Verify credentials
+✔ Restart VPN client
+✔ Change VPN server
+✔ Check firewall settings
+✔ Reinstall VPN software`;
+  }
 
-function copyText() {
-  const text = document.getElementById("result").innerText;
-  navigator.clipboard.writeText(text);
-  alert("Copied!");
+  if (issue === "outlook") {
+    result = `✔ Restart Outlook
+✔ Check internet connection
+✔ Repair Outlook profile
+✔ Disable add-ins
+✔ Re-enter email credentials
+✔ Check mail server status`;
+  }
+
+  if (issue === "wifi") {
+    result = `✔ Restart router
+✔ Forget and reconnect network
+✔ Update WiFi drivers
+✔ Move closer to router
+✔ Check interference
+✔ Reset network settings`;
+  }
+
+  if (issue === "blue") {
+    result = `✔ Note error code
+✔ Restart system
+✔ Update drivers
+✔ Run Windows Update
+✔ Check RAM (Windows Memory Diagnostic)
+✔ Scan for malware
+✔ Check hardware issues`;
+  }
+
+  if (issue === "login") {
+    result = `✔ Check username/password
+✔ Ensure Caps Lock is off
+✔ Try password reset
+✔ Check domain connection
+✔ Restart computer
+✔ Contact administrator`;
+  }
+
+  if (issue === "usb") {
+    result = `✔ Try different USB port
+✔ Restart computer
+✔ Update USB drivers
+✔ Check Device Manager
+✔ Test with another device
+✔ Enable USB in BIOS`;
+  }
+
+  if (issue === "audio") {
+    result = `✔ Check volume levels
+✔ Check output device
+✔ Restart audio services
+✔ Update audio drivers
+✔ Test with headphones
+✔ Check system sound settings`;
+  }
+
+  document.getElementById("result").innerText = result;
 }
 </script>
 
